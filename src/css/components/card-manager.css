@@ -1,0 +1,138 @@
+.card-manager {
+    background: var(--card-bg);
+    border-radius: 15px;
+    padding: 1.5rem;
+    margin: 1rem 0;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--card-border);
+}
+
+.add-card-form {
+    display: grid;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.form-group input,
+.form-group textarea {
+    padding: 0.75rem;
+    border: 1px solid var(--input-border);
+    border-radius: 8px;
+    background: var(--input-bg);
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: border-color 0.2s ease;
+}
+
+.form-group input:focus,
+.form-group textarea:focus {
+    outline: none;
+    border-color: var(--primary-color);
+}
+
+.add-card-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-card-btn:hover {
+    background: var(--primary-hover);
+}
+
+.cards-list {
+    display: grid;
+    gap: 1rem;
+}
+
+.card-item {
+    background: var(--card-item-bg);
+    border-radius: 8px;
+    padding: 1rem;
+    display: grid;
+    gap: 0.5rem;
+    position: relative;
+}
+
+.card-question,
+.card-answer {
+    font-size: 1rem;
+    color: var(--text-primary);
+}
+
+.card-actions {
+    display: flex;
+    gap: 0.5rem;
+    margin-top: 0.5rem;
+}
+
+.edit-btn,
+.delete-btn {
+    padding: 0.5rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.edit-btn {
+    background: var(--edit-color);
+    color: white;
+}
+
+.delete-btn {
+    background: var(--delete-color);
+    color: white;
+}
+
+.edit-btn:hover {
+    background: var(--edit-hover);
+}
+
+.delete-btn:hover {
+    background: var(--delete-hover);
+}
+
+.empty-state {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+}
+
+.empty-state p {
+    margin-bottom: 1rem;
+}
+
+.add-first-card-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.add-first-card-btn:hover {
+    background: var(--primary-hover);
+} 

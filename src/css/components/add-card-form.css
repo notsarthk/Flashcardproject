@@ -1,0 +1,48 @@
+.add-card-form {
+    background: var(--card-bg);
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px auto;
+    max-width: 600px;
+    display: none;
+}
+
+.add-card-form.active {
+    display: block;
+}
+
+.add-card-form input {
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    border: 1px solid var(--card-border);
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: var(--text-primary);
+}
+
+.add-card-form button {
+    width: 100%;
+    padding: 10px;
+    background: var(--accent-gradient);
+    border: none;
+    border-radius: 5px;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.toggle-add-form {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    font-size: 24px;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+} 
