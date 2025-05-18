@@ -1,24 +1,35 @@
+// Get custom cards from localStorage
+const customCards = JSON.parse(localStorage.getItem('flashcardStorage')) || {
+    science: { easy: [], medium: [], hard: [] },
+    math: { easy: [], medium: [], hard: [] },
+    sst: { easy: [], medium: [], hard: [] }
+};
+
+// Default hard social studies cards
+const defaultCards = [
+    {
+        question: "What were the main causes and consequences of the Industrial Revolution?",
+        answer: "Causes: Technological innovations, access to raw materials, and capital investment. Consequences: Urbanization, social class changes, environmental impact, and global economic transformation."
+    },
+    {
+        question: "What is the difference between a parliamentary and presidential system of government?",
+        answer: "In a parliamentary system, the executive branch derives its legitimacy from and is accountable to the legislature, while in a presidential system, the executive is independent of the legislature and directly elected by the people."
+    },
+    {
+        question: "What were the key factors that led to the Cold War?",
+        answer: "Ideological differences between capitalism and communism, power vacuum after WWII, nuclear arms race, and proxy wars between the US and USSR."
+    },
+    {
+        question: "What is the significance of the Magna Carta in modern democracy?",
+        answer: "It established the principle that everyone, including the king, is subject to the law, and introduced concepts of due process and individual rights that influenced modern democratic systems."
+    },
+    {
+        question: "What are the main challenges to global economic development?",
+        answer: "Income inequality, environmental degradation, political instability, access to education and healthcare, and technological divide between developed and developing nations."
+    }
+];
+
+// Combine default cards with custom cards
 const flashcardData = {
-    cards: [
-        {
-            question: "What was the primary goal of the Civil Rights Movement in the United States?",
-            answer: "To end racial segregation and discrimination against African Americans."
-        },
-        {
-            question: "Explain the concept of inflation.",
-            answer: "Inflation is the rate at which the general level of prices for goods and services is rising, and subsequently, the purchasing power of currency is falling."
-        },
-         {
-            question: "What is the significance of the Magna Carta?",
-            answer: "The Magna Carta was a royal charter of rights agreed to by King John of England in 1215. It is one of the most important documents in English history as it limited the power of the monarch and established the principle of rule of law."
-        },
-        {
-            question: "What were the main causes of World War I?",
-            answer: "Militarism, Alliances, Imperialism, Nationalism (MAIN). The assassination of Archduke Franz Ferdinand of Austria was the spark that ignited the war."
-        },
-        {
-            question: "Describe the structure and function of the US Congress.",
-            answer: "The US Congress is the legislative branch of the federal government, consisting of the Senate and the House of Representatives. Its main function is to make laws."
-        }
-    ]
+    cards: [...defaultCards, ...customCards.sst.hard]
 }; 

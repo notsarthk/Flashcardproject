@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Custom Flashcards</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="../css/paint.css">
+    <link rel="stylesheet" href="../css/flashcards.css">
+    <style>
+        .input-container {
+            background: var(--card-bg);
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px auto;
+            max-width: 600px;
+        }
+        .input-container input, .input-container select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid var(--card-border);
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.1);
+            color: var(--text-primary);
+        }
+        .input-container button {
+            width: 100%;
+            padding: 10px;
+            background: var(--accent-gradient);
+            border: none;
+            border-radius: 5px;
+            color: white;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .stored-cards {
+            margin-top: 20px;
+            padding: 20px;
+        }
+        .card-item {
+            background: var(--card-bg);
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            border: 1px solid var(--card-border);
+        }
+        .card-item button {
+            background: #ff4b2b;
+            color: white;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 3px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+        .card-item button:hover {
+            background: #ff3015;
+        }
+        .subject-section {
+            margin-bottom: 30px;
+        }
+        .subject-section h3 {
+            color: var(--accent-primary);
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <div class="logo">
+            <i class="fas fa-brain"></i>
+            Flashcards
+        </div>
+        <div class="nav-links">
+            <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="use-cases.html"><i class="fas fa-info-circle"></i> How It Works</a>
+        </div>
+    </nav>
+
+    <div class="flashcard-container">
+        <div class="input-container">
+            <h2>Add New Flashcard</h2>
+            <input type="text" id="custom-question" placeholder="Enter your question">
+            <input type="text" id="custom-answer" placeholder="Enter your answer">
+            <select id="difficulty-level">
+                <option value="easy">Easy</option>
+                <option value="medium">Medium</option>
+                <option value="hard">Hard</option>
+            </select>
+            <select id="subject">
+                <option value="science">Science</option>
+                <option value="math">Mathematics</option>
+                <option value="sst">Social Studies</option>
+            </select>
+            <button id="add-card-btn">Add Card</button>
+        </div>
+
+        <div class="stored-cards">
+            <h2>Your Flashcards</h2>
+            <div id="cards-list"></div>
+        </div>
+    </div>
+
+    <script src="../js/custom-easy-data.js"></script>
+</body>
+</html> 

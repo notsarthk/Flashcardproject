@@ -13,58 +13,50 @@ class InteractiveFlashcard {
         this.startAgainBtn = document.querySelector('.start-again-btn');
         this.nextDifficultyBtn = document.querySelector('.next-difficulty-btn');
         
+        // Progress tracking stats
+        this.stats = {
+            total: this.cards.length,
+            known: 0,
+            unknown: 0,
+            currentStreak: 0
+        };
+        
         this.initializeEventListeners();
         this.loadCurrentCard();
+        this.updateProgressDisplay();
     }
 
     initializeEventListeners() {
-        // Flip card on click
+        // Card flip on click
         this.flashcardElement.addEventListener('click', () => {
-            // Only allow flipping from front to back initially
             if (!this.flashcardElement.classList.contains('is-flipped')) {
-                 this.flipCardToShowAnswer();
+                this.flipCardToShowAnswer();
             }
         });
 
         // Know button
         this.knowBtn.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent card from flipping back immediately
+            event.stopPropagation();
             this.handleAnswer('know');
         });
 
         // Don't know button
         this.dontKnowBtn.addEventListener('click', (event) => {
-            event.stopPropagation(); // Prevent card from flipping back immediately
+            event.stopPropagation();
             this.handleAnswer('dont-know');
         });
 
-        // Next question button
-        this.nextBtn.addEventListener('click', () => {
-            this.nextQuestion();
-        });
-
-        // Retry button
-        this.retryBtn.addEventListener('click', () => {
-            this.retryQuestion();
-        });
-
-        // Start Again button
-        this.startAgainBtn.addEventListener('click', () => {
-            this.startAgain();
-        });
-
-        // Next Difficulty button
+        // Navigation buttons
+        this.nextBtn.addEventListener('click', () => this.nextQuestion());
+        this.retryBtn.addEventListener('click', () => this.retryQuestion());
+        this.startAgainBtn.addEventListener('click', () => this.startAgain());
         this.nextDifficultyBtn.addEventListener('click', () => {
-            // Explicitly call the global navigation function defined on the page
             if (typeof navigateToNextDifficulty === 'function') {
                 navigateToNextDifficulty();
             } else {
                 console.error('navigateToNextDifficulty function not found!');
-                // Fallback or error handling if the function isn't defined
-                 // window.location.href = '../index.html'; // Example fallback to home
             }
         });
-
     }
 
     loadCurrentCard() {
@@ -74,102 +66,103 @@ class InteractiveFlashcard {
             const cardBackContent = this.flashcardElement.querySelector('.card-back .card-content');
 
             cardFrontContent.textContent = card.question;
-            // Wrap the answer in a span with a class for mirroring
             cardBackContent.innerHTML = '<span class="mirrored-text">' + card.answer + '</span>';
 
-            console.log('Loaded card:', {
-                question: card.question,
-                answer: card.answer
-            });
-
             this.resetCardState();
-            this.flashcardElement.style.display = 'flex'; // Ensure flashcard is visible
-            this.actionButtons.style.display = 'flex'; // Ensure action buttons are visible
-            this.endOfDifficultyButtons.style.display = 'none'; // Hide end of difficulty buttons
-
+            this.flashcardElement.style.display = 'flex';
+            this.actionButtons.style.display = 'flex';
+            this.endOfDifficultyButtons.style.display = 'none';
         } else {
-             // End of cards for this difficulty
-            console.log('End of cards for this difficulty.');
             this.endOfDifficulty();
         }
     }
 
     resetCardState() {
-        // This function resets the card to the question side
         this.flashcardElement.classList.remove('is-flipped');
-        // Initially show action buttons, hide next/retry
         this.actionButtons.style.display = 'flex';
         this.nextBtn.style.display = 'none';
         this.retryBtn.style.display = 'none';
-        this.endOfDifficultyButtons.style.display = 'none'; // Ensure end of difficulty buttons are hidden
+        this.endOfDifficultyButtons.style.display = 'none';
     }
     
-    flipCardToShowAnswer(){
-         // This function specifically flips the card from front to back
+    flipCardToShowAnswer() {
         this.flashcardElement.classList.add('is-flipped');
-        // Hide action buttons when flipped to answer side
         this.actionButtons.style.display = 'none';
-        // next/retry buttons should remain hidden until answer is handled
         this.nextBtn.style.display = 'none';
         this.retryBtn.style.display = 'none';
-        this.endOfDifficultyButtons.style.display = 'none'; // Ensure end of difficulty buttons are hidden
+        this.endOfDifficultyButtons.style.display = 'none';
     }
 
     handleAnswer(type) {
-        // Hide action buttons after answer is selected
-        this.actionButtons.style.display = 'none'; 
+        this.actionButtons.style.display = 'none';
 
         if (type === 'know') {
-            this.nextBtn.style.display = 'block'; // Show Next Question button
-             // Optional: Trigger confetti for 'Know'
-            // this.triggerConfetti();
+            this.nextBtn.style.display = 'block';
+            this.triggerConfetti();
+            this.stats.known++;
+            this.stats.currentStreak++;
         } else if (type === 'dont-know') {
-            this.retryBtn.style.display = 'block'; // Show Retry button
+            this.retryBtn.style.display = 'block';
+            this.stats.unknown++;
+            this.stats.currentStreak = 0;
+            const currentCard = this.cards[this.currentCard];
+            this.cards.push(currentCard);
         }
         
-        // Ensure card is flipped to answer side (should already be from flipCardToShowAnswer)
-         if (!this.flashcardElement.classList.contains('is-flipped')) {
-             // This case should not happen with current logic, but as a fallback:
-             this.flashcardElement.classList.add('is-flipped');
-         }
-         this.endOfDifficultyButtons.style.display = 'none'; // Ensure end of difficulty buttons are hidden
+        this.updateProgressDisplay();
+        
+        if (!this.flashcardElement.classList.contains('is-flipped')) {
+            this.flashcardElement.classList.add('is-flipped');
+        }
+        this.endOfDifficultyButtons.style.display = 'none';
+    }
+
+    updateProgressDisplay() {
+        let progressContainer = document.querySelector('.progress-container');
+        if (!progressContainer) {
+            progressContainer = document.createElement('div');
+            progressContainer.className = 'progress-container';
+            this.flashcardElement.parentNode.insertBefore(progressContainer, this.flashcardElement);
+        }
+
+        const progress = (this.stats.known / this.stats.total) * 100;
+        
+        progressContainer.innerHTML = `
+            <div class="progress-bar" style="width: ${progress}%"></div>
+            <div class="progress-stats">
+                <span>Known: ${this.stats.known}</span>
+                <span>Unknown: ${this.stats.unknown}</span>
+                <span>Current Streak: ${this.stats.currentStreak}</span>
+            </div>
+        `;
     }
 
     nextQuestion() {
         this.currentCard++;
-        this.loadCurrentCard(); // Load the next card which will also reset the state
+        this.loadCurrentCard();
     }
 
     retryQuestion() {
-         // For retry, we just want to show the question again
-        this.resetCardState(); // Reset the card to show the question and action buttons
+        this.resetCardState();
     }
 
     endOfDifficulty() {
-        this.flashcardElement.style.display = 'none'; // Hide the flashcard
-        this.actionButtons.style.display = 'none'; // Hide action buttons
-        this.nextBtn.style.display = 'none'; // Hide next button
-        this.retryBtn.style.display = 'none'; // Hide retry button
-        this.endOfDifficultyButtons.style.display = 'flex'; // Show end of difficulty buttons
+        this.flashcardElement.style.display = 'none';
+        this.actionButtons.style.display = 'none';
+        this.nextBtn.style.display = 'none';
+        this.retryBtn.style.display = 'none';
+        this.endOfDifficultyButtons.style.display = 'flex';
     }
 
     startAgain() {
-        this.currentCard = 0; // Reset to the first card
-        this.loadCurrentCard(); // Load the first card
-    }
-
-    nextDifficulty() {
-        // Navigate to the next difficulty page
-        // This assumes the next difficulty page for Science is medium-science.html
-        window.location.href = 'medium-science.html'; 
-         // Note: You might want a more dynamic way to determine the next difficulty page
+        this.currentCard = 0;
+        this.loadCurrentCard();
     }
 
     triggerConfetti() {
         const confettiContainer = document.querySelector('.confetti-container');
         confettiContainer.style.display = 'block';
 
-        // Create confetti particles
         for (let i = 0; i < 50; i++) {
             const confetti = document.createElement('div');
             confetti.className = 'confetti';
@@ -179,7 +172,6 @@ class InteractiveFlashcard {
             confettiContainer.appendChild(confetti);
         }
 
-        // Remove confetti after animation
         setTimeout(() => {
             confettiContainer.innerHTML = '';
             confettiContainer.style.display = 'none';
@@ -187,7 +179,6 @@ class InteractiveFlashcard {
     }
 }
 
-// Initialize when the page loads
 document.addEventListener('DOMContentLoaded', () => {
     const flashcard = new InteractiveFlashcard();
 }); 

@@ -1,24 +1,35 @@
+// Get custom cards from localStorage
+const customCards = JSON.parse(localStorage.getItem('flashcardStorage')) || {
+    science: { easy: [], medium: [], hard: [] },
+    math: { easy: [], medium: [], hard: [] },
+    sst: { easy: [], medium: [], hard: [] }
+};
+
+// Combine default cards with custom cards
 const flashcardData = {
     cards: [
+        // Default social studies cards
         {
             question: "What is the capital of France?",
             answer: "Paris"
         },
         {
-            question: "Who was the first president of the United States?",
-            answer: "George Washington"
+            question: "Which country has the largest population in the world?",
+            answer: "China"
         },
-         {
-            question: "What is the largest ocean in the world?",
+        {
+            question: "What is the largest ocean on Earth?",
             answer: "Pacific Ocean"
         },
         {
-            question: "In which year did Christopher Columbus first reach the Americas?",
-            answer: "1492"
+            question: "Which country is known as the Land of the Rising Sun?",
+            answer: "Japan"
         },
         {
-            question: "What is the longest river in the world?",
-            answer: "Nile River"
-        }
+            question: "What is the currency of the United Kingdom?",
+            answer: "British Pound"
+        },
+        // Add custom social studies easy cards
+        ...customCards.sst.easy
     ]
 }; 

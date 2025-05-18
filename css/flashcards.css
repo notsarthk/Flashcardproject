@@ -1,3 +1,4 @@
+/* Main container */
 .flashcard-container {
     max-width: 800px;
     margin: 2rem auto;
@@ -8,22 +9,39 @@
     align-items: center;
 }
 
+/* Progress tracking */
 .progress-container {
     width: 100%;
-    height: 8px;
-    background-color: var(--primary-light);
-    border-radius: 4px;
-    margin-bottom: 2rem;
+    max-width: 600px;
+    margin: 20px auto;
+    background: var(--card-bg);
+    border-radius: 10px;
+    padding: 15px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .progress-bar {
-    height: 100%;
+    height: 10px;
     background: var(--accent-gradient);
-    border-radius: 4px;
-    width: 0;
+    border-radius: 5px;
     transition: width 0.3s ease;
 }
 
+.progress-stats {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 10px;
+    color: var(--text-primary);
+    font-size: 0.9em;
+}
+
+.progress-stats span {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+/* Flashcard */
 .flashcard {
     margin: 2rem auto;
     width: 100%;
@@ -52,32 +70,30 @@
     justify-content: center;
 }
 
+/* Card flip animation */
 .flashcard.is-flipped .card-inner {
     transform: rotateY(180deg);
 }
 
-/* Ensure the back face is displayed when flipped */
 .flashcard.is-flipped .card-back {
     display: flex;
     transform: rotateY(180deg);
-    /* Ensure no weird layering issues */
-    z-index: 2; 
+    z-index: 2;
 }
 
-/* Hide the front face when flipped */
 .flashcard.is-flipped .card-front {
     display: none;
-    z-index: 1; /* Ensure front is behind back when flipped */
+    z-index: 1;
 }
 
-/* Default state for card faces */
+/* Card faces */
 .card-front, .card-back {
     position: absolute;
     width: 100%;
     height: 100%;
     -webkit-backface-visibility: hidden;
     backface-visibility: hidden;
-    display: flex; /* Use flex by default for centering content */
+    display: flex;
     align-items: center;
     justify-content: center;
     padding: 2rem;
@@ -89,8 +105,7 @@
 .card-front {
     background: var(--card-gradient);
     color: var(--text-primary);
-    z-index: 2; /* Ensure front is above back initially */
-    /* Front is visible initially */
+    z-index: 2;
     transform: rotateY(0deg);
     opacity: 1;
 }
@@ -98,24 +113,24 @@
 .card-back {
     background: var(--card-gradient);
     color: var(--text-primary);
-    z-index: 1; /* Ensure back is behind front initially */
-    /* Back is hidden and rotated initially */
+    z-index: 1;
     transform: rotateY(180deg);
     opacity: 0;
 }
 
-/* When flipped, hide front and show back */
+/* Card flip states */
 .flashcard.is-flipped .card-front {
-    transform: rotateY(-180deg); /* Rotate front out of view */
+    transform: rotateY(-180deg);
     opacity: 0;
 }
 
 .flashcard.is-flipped .card-back {
-    transform: rotateY(0deg); /* Rotate back into view */
+    transform: rotateY(0deg);
     opacity: 1;
-    z-index: 2; /* Bring back to front when active */
+    z-index: 2;
 }
 
+/* Card content */
 .card-content {
     width: 100%;
     height: 100%;
@@ -127,77 +142,7 @@
     color: var(--text-primary);
 }
 
-.controls {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin: 2rem 0;
-}
-
-.control-btn {
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 5px;
-    background-color: #007bff;
-    color: white;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.control-btn:hover {
-    background-color: #0056b3;
-}
-
-.feedback-buttons {
-    display: flex;
-    justify-content: center;
-    gap: 1rem;
-    margin: 1rem 0;
-}
-
-.feedback-btn {
-    padding: 0.8rem 1.5rem;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-}
-
-.feedback-btn.correct {
-    background-color: #28a745;
-    color: white;
-}
-
-.feedback-btn.incorrect {
-    background-color: #dc3545;
-    color: white;
-}
-
-.feedback-btn:hover {
-    opacity: 0.9;
-}
-
-.stats {
-    display: flex;
-    justify-content: space-around;
-    margin-top: 2rem;
-    padding: 1rem;
-    background-color: #f8f9fa;
-    border-radius: 10px;
-}
-
-.stat-item {
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-    font-size: 1.1rem;
-}
-
-.stat-item i {
-    font-size: 1.3rem;
-}
-
-/* Action Buttons */
+/* Action buttons */
 .action-buttons {
     display: flex;
     justify-content: center;
@@ -234,10 +179,10 @@
     box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3);
 }
 
-.next-btn {
+/* Navigation buttons */
+.next-btn, .retry-btn {
     display: none;
     padding: 1rem 2rem;
-    background: var(--accent-gradient);
     color: white;
     border: none;
     border-radius: 12px;
@@ -245,25 +190,118 @@
     transition: all 0.3s ease;
     font-size: 1.1rem;
     margin: 2rem auto;
-    box-shadow: 0 4px 15px var(--hover-glow);
     width: auto;
     text-align: center;
 }
 
+.next-btn {
+    background: var(--accent-gradient);
+    box-shadow: 0 4px 15px var(--hover-glow);
+}
+
 .retry-btn {
-    display: none;
-    padding: 1rem 2rem;
     background: linear-gradient(135deg, var(--medium-color), #f7971e);
-    color: white;
+    box-shadow: 0 4px 15px rgba(224, 175, 104, 0.3);
+}
+
+/* End of difficulty buttons */
+.end-of-difficulty-buttons {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+.start-again-btn, .next-difficulty-btn {
+    padding: 1rem 2rem;
     border: none;
     border-radius: 12px;
+    font-size: 1.1rem;
     cursor: pointer;
     transition: all 0.3s ease;
-    font-size: 1.1rem;
-    margin: 2rem auto;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.start-again-btn {
+    background: var(--accent-gradient);
+    box-shadow: 0 4px 15px var(--hover-glow);
+}
+
+.next-difficulty-btn {
+    background: linear-gradient(135deg, var(--medium-color), #f7971e);
     box-shadow: 0 4px 15px rgba(224, 175, 104, 0.3);
-    width: auto;
-    text-align: center;
+}
+
+/* Button hover effects */
+.action-btn:hover, .next-btn:hover, .retry-btn:hover, .start-again-btn:hover, .next-difficulty-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--active-glow);
+}
+
+/* Confetti animation */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    display: none;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #f00;
+    animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .flashcard {
+        height: 300px;
+    }
+
+    .card-front, .card-back {
+        font-size: 1.2rem;
+        padding: 1rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .action-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+}
+
+/* Card back text mirroring */
+.card-back .mirrored-text {
+    display: inline-block;
+    transform: scaleX(-1);
 }
 
 /* Answer Input */
@@ -321,115 +359,6 @@
     margin: 2rem 0;
     width: 100%;
     max-width: 600px;
-}
-
-/* Confetti Animation */
-.confetti-container {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    pointer-events: none;
-    z-index: 1000;
-    display: none;
-}
-
-.confetti {
-    position: absolute;
-    width: 10px;
-    height: 10px;
-    background-color: #f00;
-    animation: confetti-fall linear forwards;
-}
-
-@keyframes confetti-fall {
-    0% {
-        transform: translateY(-100vh) rotate(0deg);
-        opacity: 1;
-    }
-    100% {
-        transform: translateY(100vh) rotate(720deg);
-        opacity: 0;
-    }
-}
-
-/* Hover Effects */
-.action-btn:hover, .next-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
-}
-
-/* Responsive Design */
-@media (max-width: 768px) {
-    .flashcard {
-        height: 300px;
-    }
-
-    .card-front, .card-back {
-        font-size: 1.2rem;
-        padding: 1rem;
-    }
-
-    .action-buttons {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .action-btn {
-        width: 100%;
-        max-width: 300px;
-    }
-
-    .answer-input-container {
-        padding: 0 1rem;
-    }
-}
-
-/* Apply horizontal flip to mirrored text on the back of the card */
-.card-back .mirrored-text {
-    display: inline-block; /* Important for transform to work */
-    transform: scaleX(-1); /* Flip horizontally */
-}
-
-/* Styles for End of Difficulty Buttons */
-.end-of-difficulty-buttons {
-    display: none;
-    flex-direction: column;
-    gap: 1rem;
-    margin-top: 2rem;
-    width: 100%;
-    max-width: 400px;
-}
-
-.start-again-btn, .next-difficulty-btn {
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 12px;
-    font-size: 1.1rem;
-    cursor: pointer;
-    transition: all 0.3s ease;
-    color: white;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 0.5rem;
-    width: 100%;
-}
-
-.start-again-btn {
-    background: var(--accent-gradient);
-    box-shadow: 0 4px 15px var(--hover-glow);
-}
-
-.next-difficulty-btn {
-    background: linear-gradient(135deg, var(--medium-color), #f7971e);
-    box-shadow: 0 4px 15px rgba(224, 175, 104, 0.3);
-}
-
-.action-btn:hover, .next-btn:hover, .retry-btn:hover, .start-again-btn:hover, .next-difficulty-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px var(--active-glow);
 }
 
 /* Loading State */
