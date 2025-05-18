@@ -1,0 +1,506 @@
+.flashcard-container {
+    max-width: 800px;
+    margin: 2rem auto;
+    padding: 2rem;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.progress-container {
+    width: 100%;
+    height: 8px;
+    background-color: var(--primary-light);
+    border-radius: 4px;
+    margin-bottom: 2rem;
+}
+
+.progress-bar {
+    height: 100%;
+    background: var(--accent-gradient);
+    border-radius: 4px;
+    width: 0;
+    transition: width 0.3s ease;
+}
+
+.flashcard {
+    margin: 2rem auto;
+    width: 100%;
+    max-width: 600px;
+    height: 400px;
+    cursor: pointer;
+    position: relative;
+    perspective: 1000px;
+}
+
+.card-inner {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    transition: transform 0.6s;
+    transform-style: preserve-3d;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+    border-radius: 20px;
+    background: var(--card-bg);
+    backdrop-filter: blur(10px);
+    border: 1px solid var(--card-border);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.flashcard.is-flipped .card-inner {
+    transform: rotateY(180deg);
+}
+
+/* Ensure the back face is displayed when flipped */
+.flashcard.is-flipped .card-back {
+    display: flex;
+    transform: rotateY(180deg);
+    /* Ensure no weird layering issues */
+    z-index: 2; 
+}
+
+/* Hide the front face when flipped */
+.flashcard.is-flipped .card-front {
+    display: none;
+    z-index: 1; /* Ensure front is behind back when flipped */
+}
+
+/* Default state for card faces */
+.card-front, .card-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    -webkit-backface-visibility: hidden;
+    backface-visibility: hidden;
+    display: flex; /* Use flex by default for centering content */
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    font-size: 1.5rem;
+    border-radius: 20px;
+    transition: transform 0.6s ease, opacity 0.6s ease;
+}
+
+.card-front {
+    background: var(--card-gradient);
+    color: var(--text-primary);
+    z-index: 2; /* Ensure front is above back initially */
+    /* Front is visible initially */
+    transform: rotateY(0deg);
+    opacity: 1;
+}
+
+.card-back {
+    background: var(--card-gradient);
+    color: var(--text-primary);
+    z-index: 1; /* Ensure back is behind front initially */
+    /* Back is hidden and rotated initially */
+    transform: rotateY(180deg);
+    opacity: 0;
+}
+
+/* When flipped, hide front and show back */
+.flashcard.is-flipped .card-front {
+    transform: rotateY(-180deg); /* Rotate front out of view */
+    opacity: 0;
+}
+
+.flashcard.is-flipped .card-back {
+    transform: rotateY(0deg); /* Rotate back into view */
+    opacity: 1;
+    z-index: 2; /* Bring back to front when active */
+}
+
+.card-content {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 1rem;
+    color: var(--text-primary);
+}
+
+.controls {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+}
+
+.control-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    background-color: #007bff;
+    color: white;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.control-btn:hover {
+    background-color: #0056b3;
+}
+
+.feedback-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 1rem 0;
+}
+
+.feedback-btn {
+    padding: 0.8rem 1.5rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.feedback-btn.correct {
+    background-color: #28a745;
+    color: white;
+}
+
+.feedback-btn.incorrect {
+    background-color: #dc3545;
+    color: white;
+}
+
+.feedback-btn:hover {
+    opacity: 0.9;
+}
+
+.stats {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 2rem;
+    padding: 1rem;
+    background-color: #f8f9fa;
+    border-radius: 10px;
+}
+
+.stat-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.1rem;
+}
+
+.stat-item i {
+    font-size: 1.3rem;
+}
+
+/* Action Buttons */
+.action-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin: 2rem 0;
+    width: 100%;
+    max-width: 600px;
+    z-index: 1;
+}
+
+.action-btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    flex: 1;
+    max-width: 200px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.know-btn {
+    background: var(--accent-gradient);
+    box-shadow: 0 4px 15px var(--hover-glow);
+}
+
+.dont-know-btn {
+    background: linear-gradient(135deg, var(--hard-color), #ff4b2b);
+    box-shadow: 0 4px 15px rgba(255, 65, 108, 0.3);
+}
+
+.next-btn {
+    display: none;
+    padding: 1rem 2rem;
+    background: var(--accent-gradient);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    margin: 2rem auto;
+    box-shadow: 0 4px 15px var(--hover-glow);
+    width: auto;
+    text-align: center;
+}
+
+.retry-btn {
+    display: none;
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, var(--medium-color), #f7971e);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    margin: 2rem auto;
+    box-shadow: 0 4px 15px rgba(224, 175, 104, 0.3);
+    width: auto;
+    text-align: center;
+}
+
+/* Answer Input */
+.answer-input-container {
+    display: none;
+    margin: 2rem 0;
+    text-align: center;
+    width: 100%;
+    max-width: 600px;
+}
+
+.answer-input {
+    width: 100%;
+    padding: 1rem;
+    font-size: 1.1rem;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 12px;
+    margin-bottom: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    backdrop-filter: blur(10px);
+}
+
+.answer-input::placeholder {
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.answer-input:focus {
+    outline: none;
+    border-color: #00b09b;
+    box-shadow: 0 0 15px rgba(0, 176, 155, 0.3);
+}
+
+.submit-answer-btn {
+    padding: 1rem 2rem;
+    background: linear-gradient(135deg, #00b09b, #96c93d);
+    color: white;
+    border: none;
+    border-radius: 12px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    font-size: 1.1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    margin: 0 auto;
+    box-shadow: 0 4px 15px rgba(0, 176, 155, 0.3);
+}
+
+/* Try Again Container */
+.try-again-container {
+    display: none;
+    text-align: center;
+    margin: 2rem 0;
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Confetti Animation */
+.confetti-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 1000;
+    display: none;
+}
+
+.confetti {
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: #f00;
+    animation: confetti-fall linear forwards;
+}
+
+@keyframes confetti-fall {
+    0% {
+        transform: translateY(-100vh) rotate(0deg);
+        opacity: 1;
+    }
+    100% {
+        transform: translateY(100vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Hover Effects */
+.action-btn:hover, .next-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .flashcard {
+        height: 300px;
+    }
+
+    .card-front, .card-back {
+        font-size: 1.2rem;
+        padding: 1rem;
+    }
+
+    .action-buttons {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .action-btn {
+        width: 100%;
+        max-width: 300px;
+    }
+
+    .answer-input-container {
+        padding: 0 1rem;
+    }
+}
+
+/* Apply horizontal flip to mirrored text on the back of the card */
+.card-back .mirrored-text {
+    display: inline-block; /* Important for transform to work */
+    transform: scaleX(-1); /* Flip horizontally */
+}
+
+/* Styles for End of Difficulty Buttons */
+.end-of-difficulty-buttons {
+    display: none;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+    width: 100%;
+    max-width: 400px;
+}
+
+.start-again-btn, .next-difficulty-btn {
+    padding: 1rem 2rem;
+    border: none;
+    border-radius: 12px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    width: 100%;
+}
+
+.start-again-btn {
+    background: var(--accent-gradient);
+    box-shadow: 0 4px 15px var(--hover-glow);
+}
+
+.next-difficulty-btn {
+    background: linear-gradient(135deg, var(--medium-color), #f7971e);
+    box-shadow: 0 4px 15px rgba(224, 175, 104, 0.3);
+}
+
+.action-btn:hover, .next-btn:hover, .retry-btn:hover, .start-again-btn:hover, .next-difficulty-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px var(--active-glow);
+}
+
+/* Loading State */
+.flashcard.loading .card-inner {
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        opacity: 0.6;
+    }
+    50% {
+        opacity: 1;
+    }
+    100% {
+        opacity: 0.6;
+    }
+}
+
+.flashcard.loading .card-content {
+    color: var(--text-secondary);
+}
+
+/* Disable interactions during loading */
+.flashcard.loading {
+    pointer-events: none;
+}
+
+/* Progress Indicator */
+.progress-indicator {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: var(--card-bg);
+    padding: 0.5rem 1rem;
+    border-radius: 20px;
+    font-size: 0.9rem;
+    color: var(--text-secondary);
+    border: 1px solid var(--card-border);
+    backdrop-filter: blur(5px);
+}
+
+.progress-indicator span {
+    color: var(--text-primary);
+    font-weight: 600;
+}
+
+/* Error States */
+.error-message {
+    position: fixed;
+    top: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--hard-color);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 12px;
+    font-size: 1rem;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    z-index: 1000;
+    box-shadow: 0 4px 15px rgba(247, 118, 142, 0.3);
+}
+
+.error-message.show {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(-50%) translateY(0);
+}
+
+.error-message i {
+    margin-right: 0.5rem;
+} 

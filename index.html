@@ -10,13 +10,19 @@
     <link rel="stylesheet" href="css/paint.css">
 </head>
 <body>
+    <!-- Loading Overlay -->
+    <div class="loading-overlay">
+        <div class="loading-spinner"></div>
+    </div>
+
     <nav>
         <div class="logo">
             <i class="fas fa-brain"></i>
             Flashcards
         </div>
         <div class="nav-links">
-            <a href="pages/use-cases.html"><i class="fas fa-info-circle"></i> How It Works</a>
+            <a href="#" class="active"><i class="fas fa-home"></i> Home</a>
+            <a href="pages/use-cases.html"><i class="fas fa-info-circle"></i> How to use</a>
         </div>
     </nav>
 
@@ -105,5 +111,24 @@
     <footer>
         <p>© 2025 Flashcards Learning. All rights reserved.</p>
     </footer>
+
+    <script>
+        // Show loading overlay when page is loading
+        window.addEventListener('load', () => {
+            document.querySelector('.loading-overlay').classList.remove('active');
+        });
+
+        // Add active class to current navigation item
+        document.addEventListener('DOMContentLoaded', () => {
+            const currentPath = window.location.pathname;
+            const navLinks = document.querySelectorAll('.nav-links a');
+            
+            navLinks.forEach(link => {
+                if (link.getAttribute('href') === currentPath) {
+                    link.classList.add('active');
+                }
+            });
+        });
+    </script>
 </body>
 </html> 

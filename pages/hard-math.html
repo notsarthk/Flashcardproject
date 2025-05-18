@@ -3,146 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hard Mathematics Questions</title>
+    <title>Hard Mathematics Flashcards</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="../css/paint.css">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background: linear-gradient(135deg, #000000 0%, #01015f 35%, #003a92 100%);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding: 4rem 2rem;
-            color: white;
-        }
-
-        h1 {
-            font-size: 2.5rem;
-            margin-bottom: 3rem;
-            background: linear-gradient(to right, #ff416c, #ff4b2b);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
-        }
-
-        .cards-container {
-            display: flex;
-            gap: 2rem;
-            flex-wrap: wrap;
-            justify-content: center;
-            max-width: 1200px;
-        }
-
-        .card {
-            width: 350px;
-            height: 200px;
-            perspective: 1000px;
-            cursor: pointer;
-        }
-
-        .card-inner {
-            position: relative;
-            width: 100%;
-            height: 100%;
-            text-align: center;
-            transition: transform 0.8s;
-            transform-style: preserve-3d;
-        }
-
-        .card:hover .card-inner {
-            transform: rotateY(180deg);
-        }
-
-        .card-front, .card-back {
-            position: absolute;
-            width: 100%;
-            height: 100%;
-            backface-visibility: hidden;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            border-radius: 15px;
-            background: rgba(255, 255, 255, 0.1);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .card-front {
-            background: linear-gradient(135deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.05));
-            font-size: 1.2rem;
-            font-weight: 500;
-        }
-
-        .card-back {
-            background: linear-gradient(135deg, #ff416c, #ff4b2b);
-            transform: rotateY(180deg);
-            font-size: 1.1rem;
-        }
-
-        .nav-btn {
-            display: inline-block;
-            margin-top: 2rem;
-            padding: 0.8rem 1.5rem;
-            background: rgba(255, 255, 255, 0.1);
-            color: white;
-            text-decoration: none;
-            border-radius: 8px;
-            transition: all 0.3s ease;
-        }
-
-        .nav-btn:hover {
-            background: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
-        }
-    </style>
+    <link rel="stylesheet" href="../css/flashcards.css">
 </head>
 <body>
-    <h1>Hard Mathematics Questions</h1>
-    
-    <div class="cards-container">
-        <div class="card">
+    <nav>
+        <div class="logo">
+            <i class="fas fa-brain"></i>
+            Flashcards
+        </div>
+        <div class="nav-links">
+            <a href="../index.html"><i class="fas fa-home"></i> Home</a>
+            <a href="use-cases.html"><i class="fas fa-info-circle"></i> How It Works</a>
+        </div>
+    </nav>
+
+    <div class="flashcard-container">
+        <div class="flashcard">
             <div class="card-inner">
                 <div class="card-front">
-                    Solve for x: 2x² + 5x - 12 = 0
+                    <div class="card-content">Hard Mathematics Question will appear here</div>
                 </div>
                 <div class="card-back">
-                    x = -4 or x = 1.5
+                    <div class="card-content"><span class="mirrored-text">Hard Mathematics Answer will appear here</span></div>
                 </div>
             </div>
         </div>
 
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-front">
-                    What is the value of sin(30°)?
-                </div>
-                <div class="card-back">
-                    0.5 or ½
-                </div>
-            </div>
+        <div class="action-buttons">
+            <button class="action-btn know-btn">
+                <i class="fas fa-check"></i> Know
+            </button>
+            <button class="action-btn dont-know-btn">
+                <i class="fas fa-times"></i> Don't Know
+            </button>
         </div>
 
-        <div class="card">
-            <div class="card-inner">
-                <div class="card-front">
-                    If log₁₀(x) = 2, what is x?
-                </div>
-                <div class="card-back">
-                    100
-                </div>
-            </div>
+        <!-- Buttons that appear after flip -->
+        <button class="next-btn" style="display: none;">
+            <i class="fas fa-arrow-right"></i> Next Question
+        </button>
+        <button class="retry-btn" style="display: none;">
+            <i class="fas fa-redo"></i> Retry
+        </button>
+
+        <!-- Buttons that appear at the end of difficulty -->
+        <div class="end-of-difficulty-buttons" style="display: none;">
+             <button class="start-again-btn">
+                 <i class="fas fa-sync-alt"></i> Start Again
+             </button>
+             <button class="next-difficulty-btn">
+                 <i class="fas fa-arrow-circle-right"></i> Back to Subjects
+             </button>
         </div>
     </div>
 
-    <a href="../index.html" class="nav-btn">Back to Subjects</a>
+    <div class="confetti-container"></div>
+
+    <script src="../js/hard-math-data.js"></script>
+    <script src="../js/hard-math-nav.js"></script>
+    <script src="../js/flashcard-interactive.js"></script>
 </body>
 </html>
